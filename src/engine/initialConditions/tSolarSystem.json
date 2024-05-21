@@ -19,5 +19,12 @@
         "mass": 0.8,
         "radius": 10,
         "color": "orange"
+    },
+    {
+        "position": [441, 80],
+        "initialVelocity": [5.3, 0],
+        "mass": 0.00001,
+        "radius": 5,
+        "color": "grey"
     }
 ]

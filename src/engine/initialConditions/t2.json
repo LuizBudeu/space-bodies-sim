@@ -1,0 +1,23 @@
+[
+    {
+        "position": [660, 140],
+        "initialVelocity": [1, -0.5],
+        "mass": 1000,
+        "radius": 20,
+        "color": "yellow"
+    },
+    {
+        "position": [960, 140],
+        "initialVelocity": [-2, 1.9],
+        "mass": 1000,
+        "radius": 20,
+        "color": "blue"
+    },
+    {
+        "position": [1260, 140],
+        "initialVelocity": [1, -0.5],
+        "mass": 1000,
+        "radius": 20,
+        "color": "orange"
+    }
+]

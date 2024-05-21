@@ -7,7 +7,7 @@ import PhysicsManager from "../managers/physicsManager";
 import Background from "../gui/background";
 import MainContainer from "../gui/mainContainer";
 
-import initialParams from "../initialParams.json";
+import initialConditions from "../initialConditions/tSolarSystem.json";
 
 export default class Simulation extends Scene {
     pm!: PhysicsManager;
@@ -41,7 +41,7 @@ export default class Simulation extends Scene {
     }
 
     setupPlanets(): void {
-        for (const planetParams of initialParams) {
+        for (const planetParams of initialConditions) {
             const planet = new Planet(this.ctx, new Vector(planetParams.position[0], planetParams.position[1]), new Vector(planetParams.initialVelocity[0], planetParams.initialVelocity[1]));
             planet.setParams(planetParams.radius, planetParams.mass, planetParams.color);
             this.place(planet);
