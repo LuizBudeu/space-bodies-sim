@@ -14,3 +14,14 @@ export interface MouseEventDetails {
     deltaX?: number;
     deltaY?: number;
 }
+
+export interface WheelEventCallback {
+    callback: (event: WheelEventDetails) => void;
+    direction: "up" | "down" | null;
+}
+
+export interface WheelEventDetails {
+    x: number;
+    y: number;
+    deltaY: number;
+}

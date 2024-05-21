@@ -3,6 +3,7 @@ import Scene from "./scene";
 import Planet from "../bodies/planet";
 import Vector from "../utils/vector";
 import PhysicsManager from "../managers/physicsManager";
+import Camera from "../camera";
 
 import Background from "../gui/background";
 import MainContainer from "../gui/mainContainer";
@@ -11,13 +12,18 @@ import initialConditions from "../initialConditions/tSolarSystem.json";
 
 export default class Simulation extends Scene {
     pm!: PhysicsManager;
+    camera: Camera;
 
     constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         super(canvas, ctx);
+
+        this.camera = new Camera(ctx, 0, 0, 1);
     }
 
     start(): void {
         this.pm = new PhysicsManager([]);
+
+        this.setupCamera();
 
         this.setupBackground();
 
@@ -33,11 +39,24 @@ export default class Simulation extends Scene {
     }
 
     draw(): void {
+        // Clear the canvas
+        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Apply camera transformations
+        this.camera.applyTransformations();
+
         super.draw();
+
+        // Reset transformations to avoid affecting other UI elements
+        this.ctx.setTransform(1, 0, 0, 1, 0, 0);
     }
 
     cleanup(): void {
         super.cleanup();
+    }
+
+    setupCamera() {
+        this.camera.start();
     }
 
     setupPlanets(): void {

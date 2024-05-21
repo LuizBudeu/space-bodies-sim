@@ -1,16 +1,18 @@
 import Vector from "../utils/vector";
 import GameObject from "../interfaces/GameObject";
-import { MouseEventCallback, MouseEventDetails } from "../interfaces/MouseEvents";
+import { MouseEventCallback, MouseEventDetails, WheelEventCallback, WheelEventDetails } from "../interfaces/MouseEvents";
 
 class Mouse {
     static canvas: HTMLCanvasElement | null = null;
     static position: Vector = new Vector();
+
     static leftButtonPressed: boolean = false;
     static rightButtonPressed: boolean = false;
     static leftClickDragStart: Vector = new Vector();
     static leftClickDragging: boolean = false;
     static rightClickDragStart: Vector = new Vector();
     static rightClickDragging: boolean = false;
+
     static cursorStyle: string = "default";
 
     static rightClickDownEvents: MouseEventCallback[] = [];
@@ -20,6 +22,7 @@ class Mouse {
     static mouseMoveEvents: ((event: MouseEventDetails) => void)[] = [];
     static leftClickDraggingEvents: MouseEventCallback[] = [];
     static rightClickDraggingEvents: MouseEventCallback[] = [];
+    static wheelEvents: WheelEventCallback[] = [];
 
     static initialize(canvas: HTMLCanvasElement): void {
         if (Mouse.canvas) {
@@ -33,6 +36,7 @@ class Mouse {
         Mouse.canvas.addEventListener("mousemove", Mouse.handleMouseMove);
         Mouse.canvas.addEventListener("mousedown", Mouse.handleMouseDown);
         Mouse.canvas.addEventListener("mouseup", Mouse.handleMouseUp);
+        Mouse.canvas.addEventListener("wheel", Mouse.handleWheel);
     }
 
     static handleMouseDown(event: MouseEvent): void {
@@ -133,6 +137,14 @@ class Mouse {
 
     static removeRightDraggingEvent(callback: (event: MouseEventDetails) => void): void {
         Mouse.rightClickDraggingEvents = Mouse.rightClickDraggingEvents.filter((cb) => cb.callback !== callback);
+    }
+
+    static addWheelEvent(callback: (event: WheelEventDetails) => void, direction: "up" | "down" | null = null): void {
+        Mouse.wheelEvents.push({ callback, direction });
+    }
+
+    static removeWheelEvent(callback: (event: WheelEventDetails) => void): void {
+        Mouse.wheelEvents = Mouse.wheelEvents.filter((cb) => cb.callback !== callback);
     }
 
     static handleRightClickDown(_event: MouseEvent): void {
@@ -247,6 +259,20 @@ class Mouse {
             });
 
             Mouse.rightClickDragStart = Mouse.position.clone();
+        });
+    }
+
+    static handleWheel(event: WheelEvent): void {
+        const { x, y } = Mouse.getPosition();
+
+        Mouse.wheelEvents.forEach(({ callback, direction }) => {
+            if (direction === "up" && event.deltaY < 0) {
+                callback({ x, y, deltaY: event.deltaY });
+            } else if (direction === "down" && event.deltaY > 0) {
+                callback({ x, y, deltaY: event.deltaY });
+            } else if (!direction) {
+                callback({ x, y, deltaY: event.deltaY });
+            }
         });
     }
 
