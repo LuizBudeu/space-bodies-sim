@@ -43,8 +43,8 @@ export default class Planet implements GameObject {
 
     applyForce(force: Vector): void {
         const acceleration = force.div(this.params.mass);
-        this.velocity.add(acceleration);
-        this.position.add(this.velocity);
+        this.velocity = this.velocity.add(acceleration);
+        this.position = this.position.add(this.velocity);
     }
 
     update(_deltaTime: number): void {

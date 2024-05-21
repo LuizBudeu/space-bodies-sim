@@ -23,6 +23,9 @@ const Settings = {
     PLANET_DEFAULT_RADIUS: 50,
     PLANET_DEFAULT_MASS: 1000,
     PLANET_DEFAULT_COLOR: "red",
+
+    GRAVITATIONAL_CONSTANT: 1,
+    COEFFICIENT_OF_RESTITUTION: 0.25,
 };
 
 export default Settings;
