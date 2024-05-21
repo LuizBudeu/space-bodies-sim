@@ -7,6 +7,8 @@ import PhysicsManager from "../managers/physicsManager";
 import Background from "../gui/background";
 import MainContainer from "../gui/mainContainer";
 
+import initialParams from "../initialParams.json";
+
 export default class Simulation extends Scene {
     pm!: PhysicsManager;
 
@@ -39,25 +41,12 @@ export default class Simulation extends Scene {
     }
 
     setupPlanets(): void {
-        const planet1 = new Planet(this.ctx, new Vector(100, 200), new Vector(0, 0.5));
-        planet1.setParams(50, 1000, "blue");
-        this.place(planet1);
-        this.pm.addPlanet(planet1);
-
-        const planet2 = new Planet(this.ctx, new Vector(1000, 400), new Vector(0, -0.5));
-        planet2.setParams(50, 1000, "red");
-        this.place(planet2);
-        this.pm.addPlanet(planet2);
-
-        const planet3 = new Planet(this.ctx, new Vector(1500, 700), new Vector(-1.5, 0));
-        planet3.setParams(50, 1000, "green");
-        this.place(planet3);
-        this.pm.addPlanet(planet3);
-
-        const planet4 = new Planet(this.ctx, new Vector(1800, 100), new Vector(0, 1));
-        planet4.setParams(50, 1000, "yellow");
-        this.place(planet4);
-        this.pm.addPlanet(planet4);
+        for (const planetParams of initialParams) {
+            const planet = new Planet(this.ctx, new Vector(planetParams.position[0], planetParams.position[1]), new Vector(planetParams.initialVelocity[0], planetParams.initialVelocity[1]));
+            planet.setParams(planetParams.radius, planetParams.mass, planetParams.color);
+            this.place(planet);
+            this.pm.addPlanet(planet);
+        }
     }
 
     setupBackground() {
