@@ -1,6 +1,7 @@
+import GameObject from "../interfaces/GameObject";
 import Vector from "../utils/vector";
 
-class Circle {
+class Circle implements GameObject {
     ctx: CanvasRenderingContext2D;
     position: Vector;
     circleRadius: number;

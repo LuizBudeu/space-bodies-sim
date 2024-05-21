@@ -32,6 +32,7 @@ export default class Planet implements GameObject {
     }
 
     start(): void {
+        this.circle.start();
         this.circle.setPosition(this.position.x, this.position.y).setRadius(this.params.radius).setColor(this.params.color);
     }
 
@@ -48,6 +49,7 @@ export default class Planet implements GameObject {
     }
 
     update(_deltaTime: number): void {
+        this.circle.update();
         this.circle.setPosition(this.position.x, this.position.y);
     }
 
